@@ -32,6 +32,5 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.event.release.tag_name }}
-          name: mtd-kiosk-tempmonitor-service-${{ github.event.release.tag_name }}.zip
           files: |
             mtd-kiosk-tempmonitor-service-${{ github.event.release.tag_name }}.zip

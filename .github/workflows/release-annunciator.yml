@@ -40,6 +40,5 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.event.release.tag_name }}
-          name: mtd-kiosk-annunciator-service-${{ github.event.release.tag_name }}.zip
           files: |
             mtd-kiosk-annunciator-service-${{ matrix.arch == 'win-x64' && 'x64' || 'x86' }}-${{ github.event.release.tag_name }}.zip
