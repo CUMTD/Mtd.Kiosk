@@ -31,7 +31,6 @@
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
     <PackageVersion Include="Mtd.Core" Version="10.0.0" />
     <PackageVersion Include="Mtd.Infrastructure.EFCore" Version="10.1.0" />
-    <PackageVersion Include="Mtd.Kiosk.IpDisplaysApi" Version="1.2.0" />
     <PackageVersion Include="Mtd.Stopwatch.Core" Version="10.1.0" />
     <PackageVersion Include="Mtd.Stopwatch.Infrastructure.EFCore" Version="10.1.0" />
     <PackageVersion Include="NodaTime" Version="3.2.2" />

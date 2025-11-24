@@ -15,7 +15,6 @@
 		</PackageReference>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
 		<PackageReference Include="Microsoft.Extensions.Http.Resilience" />
-		<PackageReference Include="Mtd.Kiosk.IpDisplaysApi" />
 		<PackageReference Include="Mtd.Stopwatch.Core" />
 		<PackageReference Include="Mtd.Stopwatch.Infrastructure.EFCore" />
 		<PackageReference Include="Seq.Extensions.Logging">
@@ -55,6 +54,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Mtd.Kiosk.Core\Mtd.Kiosk.Core.csproj" />
 		<ProjectReference Include="..\Mtd.Kiosk.Infrastructure.EfCore\Mtd.Kiosk.Infrastructure.EfCore.csproj" />
+		<ProjectReference Include="..\Mtd.Kiosk.IpDisplaysApi\Mtd.Kiosk.IpDisplaysApi.csproj" />
 		<ProjectReference Include="..\Mtd.Kiosk.RealTime\Mtd.Kiosk.RealTime.csproj" />
 	</ItemGroup>
 
