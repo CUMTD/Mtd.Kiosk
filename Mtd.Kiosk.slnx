@@ -1,0 +1,43 @@
+<Solution>
+  <Folder Name="/.github/">
+    <File Path=".github/dependabot.yml" />
+  </Folder>
+  <Folder Name="/.github/workflows/">
+    <File Path=".github/workflows/build-test.yml" />
+    <File Path=".github/workflows/release-annunciator.yml" />
+    <File Path=".github/workflows/release-temp-monitor.yml" />
+  </Folder>
+  <Folder Name="/Scripts/" />
+  <Folder Name="/Scripts/Ninja/">
+    <File Path="Scripts/ninja/config.ps1" />
+    <File Path="Scripts/ninja/update.ps1" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitattributes" />
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="icon.png" />
+    <File Path="nuget.config" />
+    <File Path="readme.md" />
+  </Folder>
+  <Project Path="Mtd.Kiosk.Annunciator.Azure/Mtd.Kiosk.Annunciator.Azure.csproj" />
+  <Project Path="Mtd.Kiosk.Annunciator.Core/Mtd.Kiosk.Annunciator.Core.csproj" />
+  <Project Path="Mtd.Kiosk.Annunciator.KioskApi/Mtd.Kiosk.Annunciator.Realtime.KioskApi.csproj" />
+  <Project Path="Mtd.Kiosk.Annunciator.Readers.Raspi/Mtd.Kiosk.Annunciator.Readers.Raspi.csproj" />
+  <Project Path="Mtd.Kiosk.Annunciator.Readers.SeaDacLite/Mtd.Kiosk.Annunciator.Readers.SeaDacLite.csproj" />
+  <Project Path="Mtd.Kiosk.Annunciator.Readers.Simple/Mtd.Kiosk.Annunciator.Readers.Simple.csproj" />
+  <Project Path="Mtd.Kiosk.Annunciator.Service/Mtd.Kiosk.Annunciator.Service.csproj" />
+  <Project Path="Mtd.Kiosk.Api/Mtd.Kiosk.Api.csproj" />
+  <Project Path="Mtd.Kiosk.Core/Mtd.Kiosk.Core.csproj" />
+  <Project Path="Mtd.Kiosk.Infrastructure.EfCore/Mtd.Kiosk.Infrastructure.EfCore.csproj" />
+  <Project Path="Mtd.Kiosk.IpDisplaysApi/Mtd.Kiosk.IpDisplaysApi.csproj" />
+  <Project Path="Mtd.Kiosk.LedUpdater.SanityClient/Mtd.Kiosk.LedUpdater.SanityClient.csproj" />
+  <Project Path="Mtd.Kiosk.LedUpdater.Service/Mtd.Kiosk.LEDUpdater.Service.csproj" />
+  <Project Path="Mtd.Kiosk.RealTime/Mtd.Kiosk.RealTime.csproj" />
+  <Project Path="Mtd.Kiosk.TempMonitor.Adafruit/Mtd.Kiosk.TempMonitor.Adafruit.csproj" />
+  <Project Path="Mtd.Kiosk.TempMonitor.Core/Mtd.Kiosk.TempMonitor.Core.csproj" />
+  <Project Path="Mtd.Kiosk.TempMonitor.Service/Mtd.Kiosk.TempMonitor.Service.csproj" />
+  <Project Path="Mtd.Kiosk.TempMonitor.Vertiv/Mtd.Kiosk.TempMonitor.Vertiv.csproj" />
+</Solution>

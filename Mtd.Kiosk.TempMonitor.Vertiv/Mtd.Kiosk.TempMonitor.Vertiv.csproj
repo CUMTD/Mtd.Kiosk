@@ -1,0 +1,5 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<ItemGroup>
+		<ProjectReference Include="..\Mtd.Kiosk.TempMonitor.Core\Mtd.Kiosk.TempMonitor.Core.csproj" />
+	</ItemGroup>
+</Project>

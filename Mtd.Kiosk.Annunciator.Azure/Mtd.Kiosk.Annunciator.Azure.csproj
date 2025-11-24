@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<PackageId>Mtd.Kiosk.Annunciator.Azure</PackageId>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.CognitiveServices.Speech" />
+		<PackageReference Include="Microsoft.Extensions.Options" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Mtd.Kiosk.Annunciator.Core\Mtd.Kiosk.Annunciator.Core.csproj" />
+	</ItemGroup>
+
+</Project>

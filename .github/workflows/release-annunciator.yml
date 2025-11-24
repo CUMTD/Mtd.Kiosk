@@ -1,0 +1,44 @@
+name: Release Annunciator Service
+
+on:
+  release:
+    types: [created]
+
+permissions:
+  contents: write
+
+jobs:
+  build_and_package:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: [win-x64, win-x86]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore Dependencies
+        run: dotnet restore Mtd.Kiosk.Annunciator.Service/Mtd.Kiosk.Annunciator.Service.csproj
+
+      - name: Build and Publish
+        run: |
+          dotnet publish Mtd.Kiosk.Annunciator.Service/Mtd.Kiosk.Annunciator.Service.csproj \
+            --configuration Release \
+            --runtime ${{ matrix.arch }} \
+            --self-contained true \
+            --output publish_output \
+            --no-restore
+          zip -r mtd-kiosk-annunciator-service-${{ matrix.arch == 'win-x64' && 'x64' || 'x86' }}-${{ github.event.release.tag_name }}.zip publish_output
+
+      - name: Upload Release Asset
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.release.tag_name }}
+          files: |
+            mtd-kiosk-annunciator-service-${{ matrix.arch == 'win-x64' && 'x64' || 'x86' }}-${{ github.event.release.tag_name }}.zip

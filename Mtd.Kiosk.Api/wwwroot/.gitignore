@@ -1,0 +1,4 @@
+# Swagger NPM Data
+**/node_modules
+**/swagger/lib
+**/swagger/lib/*

@@ -1,0 +1,71 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<RuntimeIdentifiers>win-x64;win-x86</RuntimeIdentifiers>
+		<PublishSingleFile>true</PublishSingleFile>
+		<UserSecretsId>9614b352-dbaf-4379-95c0-b368af95fe6e</UserSecretsId>
+		<PackageId>Mtd.Kiosk.Annunciator.Service</PackageId>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Systemd" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" />
+		<PackageReference Include="Microsoft.Extensions.Http" />
+		<PackageReference Include="Serilog" />
+		<PackageReference Include="Serilog.Enrichers.AssemblyName">
+			<TreatAsUsed>true</TreatAsUsed>
+		</PackageReference>
+		<PackageReference Include="Serilog.Enrichers.Context">
+			<TreatAsUsed>true</TreatAsUsed>
+		</PackageReference>
+		<PackageReference Include="Serilog.Enrichers.Environment">
+			<TreatAsUsed>true</TreatAsUsed>
+		</PackageReference>
+		<PackageReference Include="Serilog.Enrichers.Process">
+			<TreatAsUsed>true</TreatAsUsed>
+		</PackageReference>
+		<PackageReference Include="Serilog.Enrichers.Thread">
+			<TreatAsUsed>true</TreatAsUsed>
+		</PackageReference>
+		<PackageReference Include="Serilog.Extensions.Hosting" />
+		<PackageReference Include="Serilog.Extensions.Logging">
+			<TreatAsUsed>true</TreatAsUsed>
+		</PackageReference>
+		<PackageReference Include="Serilog.Settings.Configuration" />
+		<PackageReference Include="Serilog.Sinks.Console">
+			<TreatAsUsed>true</TreatAsUsed>
+		</PackageReference>
+		<PackageReference Include="Serilog.Sinks.File">
+			<TreatAsUsed>true</TreatAsUsed>
+		</PackageReference>
+		<PackageReference Include="Serilog.Sinks.Seq">
+			<TreatAsUsed>true</TreatAsUsed>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="appsettings.Development.json" Condition="'$(Configuration)'!='Release'">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\icon.png" Pack="true" PackagePath="\" />
+		<None Include="..\readme.md" Pack="true" PackagePath="\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Mtd.Kiosk.Annunciator.Azure\Mtd.Kiosk.Annunciator.Azure.csproj" />
+		<ProjectReference Include="..\Mtd.Kiosk.Annunciator.Core\Mtd.Kiosk.Annunciator.Core.csproj" />
+		<ProjectReference Include="..\Mtd.Kiosk.Annunciator.KioskApi\Mtd.Kiosk.Annunciator.Realtime.KioskApi.csproj" />
+		<ProjectReference Include="..\Mtd.Kiosk.Annunciator.Readers.Raspi\Mtd.Kiosk.Annunciator.Readers.Raspi.csproj" />
+		<ProjectReference Include="..\Mtd.Kiosk.Annunciator.Readers.SeaDacLite\Mtd.Kiosk.Annunciator.Readers.SeaDacLite.csproj" />
+		<ProjectReference Include="..\Mtd.Kiosk.Annunciator.Readers.Simple\Mtd.Kiosk.Annunciator.Readers.Simple.csproj" />
+	</ItemGroup>
+
+</Project>

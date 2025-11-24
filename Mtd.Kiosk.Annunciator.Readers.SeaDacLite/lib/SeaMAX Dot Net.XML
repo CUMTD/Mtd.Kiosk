@@ -1,0 +1,752 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SeaMAX Dot Net</name>
+    </assembly>
+    <members>
+        <member name="T:Sealevel.SeaMAX">
+            <summary>
+            Provides a .NET interface to SeaMAX.dll.
+            </summary>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SDL_Initialize">
+            <summary>
+            Initializes the interface and allocates internal memory.
+            </summary>
+            <returns>Returns 0 on success. Returns a negative number on failure.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SDL_Cleanup">
+            <summary>
+            Deallocates memory used by the SDL interface.
+            </summary>
+            <returns>Returns 0 on success. Returns a negative number on failure.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SDL_SearchForDevices">
+            <summary>
+            Attempts to enumerate all connected SeaDAC Lite modules and stores them as an internal list.
+            </summary>
+            <returns>Returns 0 on success. Returns a negative number on failure.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SDL_DeviceCount">
+            <summary>
+            Returns the number of discovered SeaDAC Lite devices presently on the system.
+            </summary>
+            <returns>Returns 0 on success. Returns a negative number on failure.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SDL_FirstDevice">
+            <summary>
+            Sets the internal pointer to the first discovered SeaDAC Lite device.
+            </summary>
+            <returns>Returns 0 on success. Returns a negative number on failure.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SDL_NextDevice">
+            <summary>
+            Advances the internal pointer to the next discovered SeaDAC Lite device.
+            </summary>
+            <returns>Returns 0 on success. Returns a negative number on failure.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SDL_GetName(System.String@)">
+            <summary>
+            Retrieve's the current SeaDAC Lite device's SeaMAX compatible name.
+            </summary>
+            <param name="DeviceName">Will contain the name of the device on completion.</param>
+            <returns>Returns 0 on success. Returns a negative number on failure.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SDL_GetModel(System.Int32@)">
+            <summary>
+            Retrieve's the current SeaDAC Lite device's model number.
+            </summary>
+            <param name="Model">Will contain the model number of the device on completion.</param>
+            <returns>Returns 0 on success. Returns a negative number on failure.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SDL_GetDeviceID(System.Int32@)">
+            <summary>
+            Retrieve's the current SeaDAC Lite device's USB ID.
+            </summary>
+            <param name="ID">Will contain the USB ID of the device on completion.</param>
+            <returns>Returns 0 on success. Returns a negative number on failure.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SDL_GetSerial(System.String@)">
+            <summary>
+            Retrieve the current SeaDAC Lite device's Serial Number.
+            </summary>
+            <param name="SerialNumber">Will contain the Serial Number of the device on completion.</param>
+            <returns>Returns 0 on success. Returns a negative number on failure.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SME_Initialize">
+            <summary>
+            SME_Initialize allocates internal memory and prepares the SME interface. After using the SME interface, it is necessary to explicitly call SME_Cleanup() to avoid memory leaks.
+            </summary>
+            <returns>Returns 0 on success. Returns a negative number on failure.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SME_Cleanup">
+            <summary>
+            Deallocates memory used by the SME interface.
+            </summary>
+            <returns>Returns 0 on success. Returns a negative number on failure.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SME_SearchForModules">
+            <summary>
+            Attempts to discover all reachable Sealevel I/O Ethernet modules via a UDP broadcast.
+            </summary>
+            <returns>Returns the number of discovered modules on success. Returns a negative number on failure.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SME_FirstModule">
+            <summary>
+            Sets the internal pointer to the first module discovered by SME_SearchForModules().
+            </summary>
+            <returns>Returns 0 on success. Returns a negative number on failure.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SME_NextModule">
+            <summary>
+            Advances the internal pointer to the next module discovered by SME_SearchForModules().
+            </summary>
+            <returns>Returns 0 on success. Returns a negative number on failure.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SME_Ping">
+            <summary>
+            Contacts the currently selected module to ensure it is powered and accessible.
+            </summary>
+            <returns>Returns 1 if a response was received. Returns 0 if no response was received. Returns negative if an error occurred.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SME_ModuleByName(System.String)">
+            <summary>
+            Advances the internal pointer to the first module discovered by SME_SearchForModules() whose name matches the parameter. If SME_ModuleByName fails, the currently select module (if any) remains selected.
+            </summary>
+            <param name="ModuleName">The DHCP Name of the module, between 0 and 16 characters.</param>
+            <returns>Returns 0 on success. Returns a negative number on failure.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SME_ModuleByIP(System.String)">
+            <summary>
+            Advances the internal pointer to the first module discovered by SME_SearchForModules() whose IP address matches the parameter. If SME_ModuleByIP fails, the currently select module (if any) remains selected.
+            </summary>
+            <param name="IpAddress">IP address of the module to search for.</param>
+            <returns>Returns 0 on success. Returns a negative number on failure.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SME_ModuleByMAC(System.String)">
+            <summary>
+            Advances the internal pointer to the first module discovered by SME_SearchForModules() whose MAC address matches the parameter. If SME_ModuleByMAC fails, the currently select module (if any) remains selected.
+            </summary>
+            <param name="MAC">MAC address of the module to search for, in the format xx-xx-xx-xx-xx-xx.</param>
+            <returns>Returns 0 on success. Returns a negative number on failure.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SME_ModuleCount">
+            <summary>
+            Returns the number of modules discovered on the last call to SME_SearchForModules().
+            </summary>
+            <returns>Returns the number of discovered modules on success. Returns a negative number on failure.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SME_GetName(System.String@)">
+            <summary>
+            Retrieve the currently selected Sealevel I/O module's name.
+            </summary>
+            <param name="ModuleName">Will contain the DHCP Name of the module on completion.</param>
+            <returns>Returns 0 on success. Returns a negative number on failure.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SME_GetMACAddress(System.String@)">
+            <summary>
+            Retrieve the currently selected Sealevel I/O module's hardware MAC address. The returned string will be in the format of "XX-XX-XX-XX-XX-XX" where the XX's represent two-byte hexadecimal representations of the six MAC address octets.
+            </summary>
+            <param name="Address">Will contain the MAC address of the module on completion.</param>
+            <returns>Returns 0 on success. Returns a negative number on failure.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SME_GetFirmwareVersion(System.Int32@,System.Int32@)">
+            <summary>
+            </summary>
+            <param name="Major"></param>
+            <param name="Minor"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SME_GetNetworkConfig(System.String@,System.String@,System.String@)">
+            <summary>
+            Retrieve's the currently selected Sealevel I/O module's IP address, netmask, and gateway as strings.
+            </summary>
+            <param name="IpAddress">Will contain the IP address of the module on completion.</param>
+            <param name="NetMask">Will contain the Subnet Mask of the module on completion.</param>
+            <param name="Gateway">Will contain the Gateway address of the module on completion.</param>
+            <returns>Returns 0 on success. Returns a negative number on failure.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SME_GetNetworkConfigBytes(System.Byte[],System.Byte[],System.Byte[])">
+            <summary>
+            Retrieve's the currently selected Sealevel I/O module's IP address, netmask, and gateway as strings.
+            </summary>
+            <param name="Address">Will contain the IP address of the module on completion.</param>
+            <param name="NetMask">Will contain the Subnet Mask of the module on completion.</param>
+            <param name="Gateway">Will contain the Gateway address of the module on completion.</param>
+            <returns>Returns 0 on success. Returns a negative number on failure.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SME_GetDHCPConfig(System.Int32@)">
+            <summary>
+            Gets the currently selected Sealevel I/O module's DHCP status (on or off).
+            </summary>
+            <param name="Status">Will contain the DHCP status of the module on completion. Off == 0.</param>
+            <returns>Returns 0 on success. Returns a negative number on failure.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SME_GetType(System.String@)">
+            <summary>
+            Gets the current Sealevel I/O module's interface type.
+            </summary>
+            <param name="Type">Will contain the connection type of the module on completion. Ethernet == 'X', Wireless == 'W'.</param>
+            <returns>Returns 0 on success. Returns a negative number on failure.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SME_SetName(System.String)">
+            <summary>
+            Sets the currently selected Sealevel I/O module's name.
+            </summary>
+            <param name="Name">New DHCP name to be sent to the module.</param>
+            <returns>Returns 0 on success. Returns a negative number on failure.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SME_SetNetworkConfig(System.String,System.String,System.String)">
+            <summary>
+            Sets the currently selected Sealevel I/O module's network configuration and resets the device. Setting a network configuration will automatically disable DHCP. SME_SearchForModules() must be called after calling this method because the internal list is cleared to prevent a loss of list integrity.
+            </summary>
+            <param name="IpAddress">New IP address to set on the module. Do not change == NULL.</param>
+            <param name="NetMask">New Subnet Mask to set on the module. Do not change == NULL.</param>
+            <param name="Gateway">New Gateway address to set on the module. Do not change == NULL.</param>
+            <returns>Returns 0 on success. Returns a negative number on failure.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SME_SetNetworkConfigBytes(System.Byte[],System.Byte[],System.Byte[])">
+            <summary>
+            Sets the currently selected Sealevel I/O module's network configuration and resets the device. Setting a network configuration will automatically disable DHCP.  SME_SearchForModules() must be called after calling this method because the internal list is cleared to prevent a loss of list integrity.
+            </summary>
+            <param name="IPAddress">New IP address to set on the module. Do not change == NULL.</param>
+            <param name="NetMask">New Subnet Mask to set on the module. Do not change == NULL.</param>
+            <param name="Gateway">New Gateway address to set on the module. Do not change == NULL.</param>
+            <returns>Returns 0 on success. Returns a negative number on failure.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SME_SetDHCPConfig(System.Int32)">
+            <summary>
+            Enables or disables the currently selected Sealevel I/O module's use of DHCP configuration.
+            </summary>
+            <param name="Status">Use a non-zero value to enable DHCP. Disabled = '0'.</param>
+            <returns>Returns 0 on success. Returns a negative number on failure.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SME_SetNetworkSerialParams(Sealevel.SeaMAX.Baudrate,Sealevel.SeaMAX.Parity)">
+            <summary>
+            Sets the parameters of the RS-485 bus on the module, if applicable.
+            </summary>
+            <param name="Baudrate">Baudrate to set on the module.</param>
+            <param name="Parity">Parity mode to set on the module.</param>
+            <returns>Returns 0 on success. Returns a negative number on failure.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SME_GetNetworkSerialParams(Sealevel.SeaMAX.Baudrate@,Sealevel.SeaMAX.Parity@)">
+            <summary>
+            Gets the parameters of the RS-485 bus on the module, if applicable.
+            </summary>
+            <param name="Baudrate">Will contain the Baudrate of the module on completion.</param>
+            <param name="Parity">Will contain the Parity mode of the module on completion.</param>
+            <returns>Returns 0 on success. Returns a negative number on failure.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SME_GetWirelessConfig(Sealevel.SeaMAX.Topology@,System.String@,System.Int32@,Sealevel.SeaMAX.Security@,Sealevel.SeaMAX.KeyType@)">
+            <summary>
+            Gets the wireless module's configuration.
+            </summary>
+            <param name="Network">Will contain the type of network connection used by the module on completion.</param>
+            <param name="SSID">Will contain the network SSID used by the module on completion.</param>
+            <param name="Channel">Will contain the wireless channel used by the module, if in Ad Hoc mode, on completion.</param>
+            <param name="Security">Will contain the type of network security used by the module, if enabled, on completion.</param>
+            <param name="KeyType">Will contain the type of security key used by the module, if security is enabled, on completion.</param>
+            <returns>Returns 0 on success. Returns a negative number on failure.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SME_SetWirelessConfig(Sealevel.SeaMAX.Topology,System.String,System.Int32,Sealevel.SeaMAX.Security,Sealevel.SeaMAX.KeyType,System.String)">
+            <summary>
+            Configures a wireless device's network settings and configuration. Following a successful upload of the new wireless configuration, the wireless hardware will momentarily reboot and will therefore be unavailable on the network for several seconds.
+            </summary>
+            <param name="Network">Type of network connection to use.</param>
+            <param name="SSID">Network ID to use.</param>
+            <param name="Channel">Only valid for adhoc networks. Use zero otherwise.</param>
+            <param name="Security">Type of network security to enable.</param>
+            <param name="KeyType">Type of key provided.</param>
+            <param name="Key">Encryption key.</param>
+            <returns>Returns 0 on success. Returns a negative number on failure.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SME_ARPAddress(System.Byte[])">
+            <summary>
+            </summary>
+            <param name="IpAddress"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SME_IsReachable">
+            <summary>
+            Sets the internal pointer to the first module discovered by SME_SearchForModules().
+            </summary>
+            <returns>Returns 0 on success. Returns a negative number on failure.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SME_RebootModule">
+            <summary>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SME_ConfigureDeviceSecurity(Sealevel.SeaMAX.SecurityMode,System.String)">
+            <summary>
+            Configures security mode for an ethernet device.
+            </summary>
+            <param name="securityMode">Type of encryption to use.</param>
+            <param name="securityKey">Hexadecimal encryption key. Must contain 2 hexadecimal characters per encryption key byte.</param>
+            <returns>Returns 0 on success. Returns a negative number on failure.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SME_RemoveDeviceSecurity(System.String,Sealevel.SeaMAX.SecurityMode,System.String)">
+            <summary>
+            Removes security mode on an ethernet device.
+            </summary>
+            <param name="Connection">IP Address of the device.</param>
+            <param name="securityMode">Type of encryption to use.</param>
+            <param name="securityKey">Hexadecimal encryption key. Must contain 2 hexadecimal characters per encryption key byte.</param>
+            <returns>Returns 0 on success. Returns a negative number on failure.</returns>
+        </member>
+        <member name="T:Sealevel.SeaMAX.DeviceConfig">
+            <summary>
+            Contains general device information such as model number and communication settings.
+            </summary>
+        </member>
+        <member name="T:Sealevel.SeaMAX.ErrorCode">
+            <summary>
+            Error Codes used by SM_GetLastError()
+            </summary>
+        </member>
+        <member name="T:Sealevel.SeaMAX.AnalogMode">
+            <summary>
+            Bitfield definitions for AnalogConfig ChannelMode field
+            </summary>
+        </member>
+        <member name="F:Sealevel.SeaMAX.AnalogMode.IS_OUTPUT">
+            <summary>
+            This channel is an output
+            </summary>
+        </member>
+        <member name="F:Sealevel.SeaMAX.AnalogMode.IS_INPUT">
+            <summary>
+            This channel is an input
+            </summary>
+        </member>
+        <member name="F:Sealevel.SeaMAX.AnalogMode.IS_SINGLE_ENDED">
+            <summary>
+            This channel is single-ended
+            </summary>
+        </member>
+        <member name="F:Sealevel.SeaMAX.AnalogMode.IS_DOUBLE_ENDED">
+            <summary>
+            This channel is double-ended
+            Double-ended channels must be configured in pairs
+            </summary>
+        </member>
+        <member name="F:Sealevel.SeaMAX.AnalogMode.IS_VOLTAGE">
+            <summary>
+            This channel's units are based on Volts
+            </summary>
+        </member>
+        <member name="F:Sealevel.SeaMAX.AnalogMode.IS_CURRENT">
+            <summary>
+            This channel's units are based on Amperes
+            </summary>
+        </member>
+        <member name="F:Sealevel.SeaMAX.AnalogMode.IS_POWER">
+            <summary>
+            This channel's units are based on Watts
+            </summary>
+        </member>
+        <member name="F:Sealevel.SeaMAX.AnalogMode.IS_FREQUENCY">
+            <summary>
+            This channel's units are based on Hertz
+            </summary>
+        </member>
+        <member name="F:Sealevel.SeaMAX.AnalogMode.USES_FLOATING_GRND">
+            <summary>
+            This channel's reference is floating
+            </summary>
+        </member>
+        <member name="F:Sealevel.SeaMAX.AnalogMode.USES_EXTERNAL_GRND">
+            <summary>
+            This channel's ground reference is supplied externally
+            </summary>
+        </member>
+        <member name="F:Sealevel.SeaMAX.AnalogMode.USES_INTERNAL_GRND">
+            <summary>
+            This channel's reference uses an internal ground
+            </summary>
+        </member>
+        <member name="T:Sealevel.SeaMAX.AnalogConfig">
+            <summary>
+            Used for tracking analog settings for A/D or D/A channels.
+            For use with SM_GetAnalogConfig() and SM_SetAnalogConfig()
+            </summary>
+        </member>
+        <member name="F:Sealevel.SeaMAX.AnalogConfig.ChannelMode">
+            <summary>
+            Bitfield specifying operational modes
+            </summary>
+        </member>
+        <member name="F:Sealevel.SeaMAX.AnalogConfig.Precision">
+            <summary>
+            Number of bits precision for the A/D or D/A
+            </summary>
+        </member>
+        <member name="F:Sealevel.SeaMAX.AnalogConfig.Exponent">
+            <summary>
+            Signed 8-bit value which is an exponent multiplier for both MinValue and MaxValue
+            </summary>
+        </member>
+        <member name="F:Sealevel.SeaMAX.AnalogConfig.MinValue">
+            <summary>
+            Minimum value read/writable by the A/D or D/A (minimum range = MinValue * (10 ^ Exponent))
+            </summary>
+        </member>
+        <member name="F:Sealevel.SeaMAX.AnalogConfig.MaxValue">
+            <summary>
+            Maximum value read/writable by the A/D or D/A (maximum range = MaxValue * (10 ^ Exponent))
+            </summary>
+        </member>
+        <member name="M:Sealevel.SeaMAX.#ctor">
+            <summary>
+            After creating a SeaMAX instance, be sure to call SM_Open(), SME_Initialize(), and/or SDL_Initialize().
+            </summary>
+        </member>
+        <member name="M:Sealevel.SeaMAX.Finalize">
+            <summary>
+            Closes and cleans up any remaining resources used by SeaMAX.
+            </summary>
+        </member>
+        <member name="M:Sealevel.SeaMAX.Dispose">
+            <summary>
+            Closes and cleans up any remaining resources used by SeaMAX.
+            </summary>
+        </member>
+        <member name="P:Sealevel.SeaMAX.IsSeaMAXOpen">
+            <summary>
+            Returns true if a call to SM_Open() has succeeded and a device is currently open.
+            </summary>
+        </member>
+        <member name="P:Sealevel.SeaMAX.IsEthernetInitialized">
+            <summary>
+            Returns true if SME_Initialize() has been called.  Will return false after SME_Cleanup() has been called.
+            </summary>
+        </member>
+        <member name="P:Sealevel.SeaMAX.IsSeaDACInitialized">
+            <summary>
+            Returns true if SDL_Initialize() has been called.  Will return false after SDL_Cleanup() has been called.
+            </summary>
+        </member>
+        <member name="P:Sealevel.SeaMAX.GenerateExceptionsOnError">
+            <summary>
+            Indicates whether SeaMAX should generate an exception when an error occurs.
+            </summary>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SM_Version(System.Int32@,System.Int32@,System.Int32@,System.Int32@)">
+            <summary>
+            Returns the SeaMAX library's version info as major.minor.revision.build.
+            </summary>
+            <param name="Major">Integer where the Major version number will be stored.</param>
+            <param name="Minor">Integer where the Minor version number will be stored.</param>
+            <param name="Revision">Integer where the Revision version number will be stored.</param>
+            <param name="Build">Integer where the Build version number will be stored.</param>
+            <returns>Returns 0 if successful.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SM_Open(System.String)">
+            <summary>
+            Opens a connection to a Sealevel I/O module.
+            </summary>
+            <param name="Connection">String representing the connection to be made.</param>
+            <returns>Returns 0 if successful, otherwise returns a negative value.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SM_OpenSecure(System.String,Sealevel.SeaMAX.SecurityMode,System.String)">
+            <summary>
+            Opens a secure connection to a Sealevel I/O module.
+            </summary>
+            <param name="Connection">String representing the connection to be made.</param>
+            <param name="Mode">Value representing the security mode to use.</param>
+            <param name="Key">Secure key in hexadecimal form.</param>
+            <returns>Returns 0 if successful, otherwise returns a negative value.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SM_ConfigureSerialConnection(Sealevel.SeaMAX.Baudrate,Sealevel.SeaMAX.Parity)">
+            <summary>
+            Configures the local PC's serial port baudrate (For Serial Connections Only).
+            </summary>
+            <param name="Baudrate">SeaMAX.Baudrate value representing the new baudrate to be used.</param>
+            <param name="Parity">SeaMAX.Parity value representing the new parity to be used.</param>
+            <returns>Returns 0 if successful, otherwise returns a negative value.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SM_ConfigureSerialTimeouts(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Configures the local PC's serial port timeout parameters (For Serial Connections Only).
+            </summary>
+            <param name="Multiple">Integer specifying the timeout multiplier to be used.</param>
+            <param name="Constant">Integer specifying the timeout constant to be used.</param>
+            <param name="Interval">Integer specifying the timeout character interval to be used.</param>
+            <returns>Returns 0 if successful, otherwise returns a negative value.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SM_Close">
+            <summary>
+            Closes the SeaMAX connection and deconstructs the SeaMAX instance.
+            </summary>
+            <returns>Returns 0 if successful, otherwise returns a negative value.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SM_SelectDevice(System.Int32)">
+            <summary>
+            Targets a new Modbus device.
+            </summary>
+            <param name="SlaveID">New Modbus slave ID to be used in future SeaMAX operations. Valid values are 0 - 247.</param>
+            <returns>Returns 0 if successful, otherwise returns a negative value.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SM_SetPolarity(System.Boolean)">
+            <summary>
+            Configures all read and write digital IO calls to use the specified logic level.
+            </summary>
+            <param name="activeLow">Set this value true for active-low logic; false for active-high.</param>
+            <returns>Returns 0 if successful, otherwise returns a negative value.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SM_GetConfig(System.Int32@)">
+            <summary>
+            Queries the Sealevel I/O module to determine the module model number, type, baudrate, and parity.
+            </summary>
+            <param name="Model">Integer where the model number will be stored.</param>
+            <returns>Returns 0 if successful, otherwise returns a negative value.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SM_GetConfig(System.Int32@,Sealevel.SeaMAX.CommunicationType@,Sealevel.SeaMAX.Baudrate@,Sealevel.SeaMAX.Parity@)">
+            <summary>
+            Queries the Sealevel I/O module to determine the module model number, type, baudrate, and parity.
+            </summary>
+            <param name="Model">Integer where the model number will be stored.</param>
+            <param name="CommType">SeaMAX.CommunicationType where the type of communications interface of the device will be stored.</param>
+            <param name="Baudrate">SeaMAX.Baudrate where the baudrate of the device will be stored.</param>
+            <param name="Parity">SeaMAX.Parity where the parity of the device will be stored.</param>
+            <returns>Returns 0 if successful, otherwise returns a negative value.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SM_GetDeviceConfig(Sealevel.SeaMAX.DeviceConfig@)">
+            <summary>
+            Queries the Sealevel I/O module to determine the module model number, type, baudrate, parity, and firmware version number.
+            </summary>
+            <param name="Config">Valid DeviceConfig struct</param>
+            <returns>Returns 0 if successful, otherwise returns a negative value.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SM_GetAnalogConfig(Sealevel.SeaMAX.AnalogConfig[]@)">
+            <summary>
+            Gets the device's analog configuration, which includes min and max ranges, and modes.
+            </summary>
+            <param name="Config">Valid AnalogConfig struct containing an AnalogConfig element for each analog channel.</param>
+            <returns>Returns 0 if successful, otherwise returns a negative value.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SM_GetAnalogInputConfig(Sealevel.SeaMAX.ReferencePoint@,Sealevel.SeaMAX.ChannelMode@)">
+            <summary>
+            Gets the device's analog configuration.
+            </summary>
+            <param name="Reference">Analog to digital reference point.</param>
+            <param name="Mode">Device input mode.</param>
+            <returns>Returns 0 if successful, otherwise returns a negative value.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SM_GetAnalogInputRanges(Sealevel.SeaMAX.ChannelRange[])">
+            <summary>
+            Gets the device's analog inputs range configuration.
+            </summary>
+            <param name="Ranges">SeaMAX.ChannelRange Array where the desired channel ranges will be stored..</param>
+            <returns>Returns 0 if successful, otherwise returns a negative value.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SM_SetAnalogConfig(Sealevel.SeaMAX.AnalogConfig[])">
+            <summary>
+            Sets the device's analog configuration, which includes min and max ranges, and modes.
+            </summary>
+            <param name="Config">Valid AnalogConfig struct containing an AnalogConfig element for each analog channel</param>
+            <returns>Returns 0 if successful, otherwise returns a negative value.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SM_SetAnalogInputConfig(Sealevel.SeaMAX.ReferencePoint,Sealevel.SeaMAX.ChannelMode)">
+            <summary>
+                Sets the device's analog configuration.
+            </summary>
+            <param name="Reference">Analog to digital reference point.</param>
+            <param name="Mode">Device input mode.</param>
+            <returns>Returns 0 if successful, otherwise returns a negative value.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SM_SetAnalogInputRanges(Sealevel.SeaMAX.ChannelRange[])">
+            <summary>
+                Sets the device's analog inputs range configuration.
+            </summary>
+            <param name="Ranges">Array of desired channel ranges.</param>
+            <returns>Returns 0 if successful, otherwise returns a negative value.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SM_GetAnalogOutputRanges(Sealevel.SeaMAX.ChannelRange[])">
+            <summary>
+                Sets the device's analog inputs range configuration.
+            </summary>
+            <param name="Ranges">SeaMAX.ChannelRange array where the desired channel ranges will be stored.</param>
+            <returns>Returns 0 if successful, otherwise returns a negative value.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SM_GetPIOPresets(System.Byte[])">
+            <summary>
+            Retrieves a Sealevel I/O module's programmable IO bit presets.
+            The SeaI/O 462 and 463 modules offer 96-bits of programmable IO in 12 banks, each of which may be configured as a bank of 8 inputs or 8 outputs. For those banks configured as outputs, the module must know the state of the IO on power-up or on direction change (from input to output).
+            The format of the returned config parameter is twelve (12) bytes, with each bit representing a bit in a PIO bank. The first byte configures the bit presets for PIO 1-8 (LSB to MSB) of bank 1, the second byte configures PIO 1-8 of bank 2, etc. In each byte's case, a '0' bit indicates the corresponding IO should be preset as 'off', and a '1' indicates an 'on' state.
+            </summary>
+            <param name="Data">Byte array where the presets ('on' or 'off') of the programmable IO will be stored.</param>
+            <returns>Returns 0 if successful, otherwise returns a negative value.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SM_SetPIOPresets(System.Byte[])">
+            <summary>
+            Configures a Sealevel I/O module's programmable IO bit presets.
+            This method provides a simpler, easier way to interface to the programmable IO Sealevel I/O modules. The SeaI/O 462 and 463 modules offer 96-bits of programmable IO in 12 banks, each of which may be configured as a bank of 8 inputs or 8 outputs. For those banks configured as outputs, the module must know the state of the IO on power-up or on direction change (from input to output).
+            The format of the config parameter should be a packed set of twelve (12) bytes, with each bit representing a bit in a bank of 12 8-bit programmable IO points. The configuration bytes are arranged such that the first byte configures the bit presets for IO 1-8 (LSB to MSB) of bank 1, the second byte configures IO 1-8 of bank 2, etc. In each bytes case, a bitwise '0' indicates the corresponding IO should be preset as 'off', and a bitwise '1' indicates an 'on' state.
+            </summary>
+            <param name="Data">Byte array containing the desired presets ('on' or 'off') of the programmable IO.</param>
+            <returns>Returns 0 if successful, otherwise returns a negative value.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SM_GetPIODirection(System.Byte[])">
+            <summary>
+            Retrieves a Sealevel I/O module's programmable IO direction.
+            The SeaI/O 462 and 463 modules offer 96-bits of programmable IO in 12 banks, each of which may be configured as a bank of 8 inputs or 8 outputs.
+            The format of the config parameter should be one byte for every 8 bits of programmable I/O, each byte representing banks 1 - 12. A non-zero byte indicates that the corresponding bank of PIO should be a bank of 8 inputs, zero indicating 8 outputs. For example, a non-zero value in config[3] would indicate that bank 4 should be a bank of inputs.
+            </summary>
+            <param name="Data">Byte array where the direction (input or output) of the programmable IO will be stored.</param>
+            <returns>Returns 0 if successful, otherwise returns a negative value.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SM_SetPIODirection(System.Byte[])">
+            <summary>
+            Configures a Sealevel I/O module's programmable IO direction.
+            This method provides a simpler, easier way to interface to the programmable IO Sealevel I/O modules. The SeaI/O 462 and 463 modules offer 96-bits of programmable IO in 12 banks, each of which may be configured as a bank of 8 inputs or 8 outputs. The most basic way of configuring the programmable IO module is by subsequent reads and writes to it's holding register map. This method masks many of those reads and writes and provides one simple interface to set IO direction.
+            The format of the config parameter should be one byte for every 8 bits of programmable I/O, each byte representing banks 1 - 12. A non-zero byte indicates that the corresponding bank of PIO should be a bank of 8 inputs, zero indicating 8 outputs. For example, a non-zero value in config[3] would indicate that bank 4 should be a bank of inputs.
+            </summary>
+            <param name="Data">Byte array containing the desired direction (input or output) of the programmable IO.</param>
+            <returns>Returns 0 if successful, otherwise returns a negative value.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SM_ReadPIO(System.Byte[])">
+            <summary>
+            Reads the entire I/O space of a Sealevel programmable IO device.
+            This method attempts to read the state of the programmable IO for any applicable Sealevel I/O module. The data is returned as a packed array of bytes reflecting the state of ports A1 to C4, MSB to LSB.
+            </summary>
+            <param name="Data">Byte array where the state of the PIO inputs will be stored. Must have 1 byte allocated for each bank of 8 I/O points.</param>
+            <returns>Returns 0 if successful, otherwise returns a negative value.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SM_WritePIO(System.Byte[])">
+            <summary>
+            Writes the IO space of a programmable I/O Sealevel I/O module.
+            This method attempts to configure the state of all programmable IO. The data should be a packed array of bytes, in order of ports A1 to C4, MSB to LSB.
+            </summary>
+            <param name="Data">Byte array containing the desired output values of the programmable IO. Must have 1 byte allocated for each bank of 8 I/O points. If any particular port is set as an input, rather than output, the corresponding byte in the array will be ignored.</param>
+            <returns>Returns 0 if successful, otherwise returns a negative value.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SM_SetCommunications(Sealevel.SeaMAX.Baudrate,Sealevel.SeaMAX.Parity)">
+            <summary>
+            Configures a Sealevel I/O module's serial communication parameters.
+            </summary>
+            <param name="Baudrate">SeaMAX.Baudrate containing the desired baudrate.</param>
+            <param name="Parity">SeaMAX.Parity containing the desired parity.</param>
+            <returns>Returns 0 if successful, otherwise returns a negative value.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SM_SetSoftwareAddress(System.Int32)">
+            <summary>
+            Configures a Sealevel I/O module's software selectable Modbus slave ID (Modbus devices only).
+            This method attempts to set the software selectable address (slave ID) of a Sealevel I/O module, whose side rotary switch is set to the '0' position. By default, setting the side switch to zero will result in a Modbus slave ID address of 247.
+            The 'Set Software Slave ID' Modbus function requires a security key byte, received by performing a 'Get Module Configuration (0x45)'. If the security key has not previously been explicitly requested , the SetSoftwareAddress() method will automatically perform the 'Get Module Configuration' function prior to executing the 'Set Software Slave ID'
+            If the side rotary switch is not in the zero position, this Modbus function will fail.
+            </summary>
+            <param name="SlaveID">Integer containing the desired slave ID of the currently selected module.</param>
+            <returns>Returns 0 if successful, otherwise returns a negative value.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SM_ReadDigitalOutputs(System.Int32,System.Int32,System.Byte[])">
+            <summary>
+            Reads the current state of one or more digital outputs. The output state(s) parameter will be an array of bytes where each byte represents 8 outputs and their states. The LSB of the first byte (values[0]) will contain the first 8 output states and will be ordered from LSB to MSB.
+            </summary>
+            <param name="Start">Starting output to read (zero-indexed).</param>
+            <param name="Quantity">Quantity of outputs to read.</param>
+            <param name="Data">Byte array where the digital output values will be stored. The array must have at least 1 byte allocated for every 8 outputs.</param>
+            <returns>Returns 0 if successful, otherwise returns a negative value.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SM_ReadDigitalInputs(System.Int32,System.Int32,System.Byte[])">
+            <summary>
+            Reads the state of one or more digital inputs. The digital input values in the values array (after a successful read) are packed as one input per bit. The LSB of the first byte (values[0]) contains the first addressed input. The next inputs follow toward the high order end of this byte, and then from low order to high order in subsequent bytes.
+            </summary>
+            <param name="Start">Starting input (zero-indexed).</param>
+            <param name="Quantity">Quantity of digital inputs to read.</param>
+            <param name="Data">Byte array where the digital input values will be stored. The array must have at least 1 byte allocated for each 8 inputs.</param>
+            <returns>Returns 0 if successful, otherwise returns a negative value.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SM_ReadAnalogInputs(System.Int32,System.Int32,System.Double[],Sealevel.SeaMAX.ChannelRange[],System.Byte[])">
+            <summary>
+            Reads one or more analog inputs. This function will return, via parameters, either an array of bytes, an array of doubles, or both. If you pass either the byte array or double array as null, that type of data will not be returned. Both arrays may not be null.
+            </summary>
+            <param name="Start">Starting input (zero-indexed).</param>
+            <param name="Quantity">Quantity of analog inputs to read.</param>
+            <param name="AnalogValues">Input values as floating point values (voltages). A double array must be supplied if a byte array is not. Must contain space allocated for 1 double per analog input.</param>
+            <param name="Ranges">Array of channel ranges that correspond directly to each requested input.</param>
+            <param name="ByteValues">Register state values as 16-bit big-endian byte pairs. A byte array must be supplied if a double array is not. Must contain space allocated for 2 bytes per analog input.</param>
+            <returns>Returns 0 if successful, otherwise returns a negative value.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SM_WriteDigitalOutputs(System.Int32,System.Int32,System.Byte[])">
+            <summary>
+            Writes the state of one or more digital outputs. The LSB of the first byte (values[0]) should contain the first 8 output states and should be ordered from LSB to MSB.
+            </summary>
+            <param name="Start">Starting output (zero-indexed).</param>
+            <param name="Quantity">Quantity of outputs to write.</param>
+            <param name="Data">Byte array containing the desired output state(s). At least one byte must be allocated for every 8 outputs.</param>
+            <returns>Returns 0 if successful, otherwise returns a negative value.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SM_WriteAnalogOutputs(System.Int32,System.Int32,System.Double[],Sealevel.SeaMAX.ChannelRange[],System.Byte[])">
+            <summary>
+            Writes to the selected device's analog outputs. Use only AnalogValues or ByteValues, but not both.
+            </summary>
+            <param name="Start">Starting output (zero-indexed).</param>
+            <param name="Quantity">Quantity of analog outputs to write.</param>
+            <param name="AnalogValues">Desired output values as floating point values (voltages). Leave null if ByteValues are used.</param>
+            <param name="Ranges">Array of analog output ranges. Can be null if providing byte values.</param>
+            <param name="ByteValues">Desired output values as 16-bit byte values. Leave null if AnalogValues are used.</param>
+            <returns>>=0 	Number of bytes successfully written. Returns negative if an error occured.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SM_NotifyOnInputChange(System.Int32,System.Int32,System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Continuously reads the discrete inputs until a change occurs. Only one notify request can be outstanding at a time.
+            </summary>
+            <param name="Start">Modbus address to begin the read (zero-indexed).</param>
+            <param name="Quantity">Quantity of inputs to read.</param>
+            <param name="Data">On input change, this buffer will be populated with the input state.</param>
+            <param name="Delay">Time to delay between issuing reads (ms).</param>
+            <param name="Blocking">Indicates whether to wait for a change (non-zero), or immediately return control to the caller (zero).</param>
+            <returns>Returns 0 if successful, otherwise returns a negative value.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SM_NotifyInputState(System.Int32)">
+            <summary>
+            Checks or cancels the notify input state status.
+            </summary>
+            <param name="Cancel">Non zero value indicates the current notify operation should be canceled.</param>
+            <returns>Returns 0 if no change was detected. Returns 1 if an input state has changed. Returns 2 if the last input read failed and will try again. Returns negative if failed.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SM_GlobalCommsReset">
+            <summary>
+            Resets a connected device to default address ID and baudrate. After issuing this command, the connected device will be changed to factory default settings. The address ID will be set to the position of the rotary switch and the baudrate will be set to 9600. If the hardware position is on 0 the address ID will be set to 247 and 9600 baud.
+            </summary>
+            <returns>Returns 0 on success.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SM_CustomMessage(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Sends a custom modbus message and receives the response. The Message array parameter must be large enough to contain the response.
+            </summary>
+            <param name="Message">Byte array containing the message to send, beginning with the function code. Will contain the response message.</param>
+            <param name="MessageLength">The length in bytes of the outgoing message.</param>
+            <param name="ResponseLength">The expected length in bytes of the response message.</param>
+            <returns>Returns the number of bytes received. Returns negative if failed.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.GetLastError">
+            <summary>
+            Retrieves the most recent error that occurred within a SeaMAX function call. Clears the internal error value when called.
+            Note: Returns SUCCESS if GenerateExceptionsOnError is true.
+            </summary>
+            <returns>Enumeration representing the most recent error.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.GetLastWin32Error">
+            <summary>
+            Retrieves the most recent Win32 error that occurred within a SeaMAX function call. Clears the internal error value when called.
+            Note: Returns 0 if GenerateExceptionsOnError is true.
+            </summary>
+            <returns>Enumeration representing the most recent error.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.GetLastFTDIError">
+            <summary>
+            Retrieves the most recent FTDI error that occurred within a SeaMAX function call. Clears the internal error value when called.
+            Note: Returns 0 if GenerateExceptionsOnError is true.
+            </summary>
+            <returns>Enumeration representing the most recent error.</returns>
+        </member>
+        <member name="M:Sealevel.SeaMAX.SM_SetBridgeType(Sealevel.SeaMAX.CommunicationType)">
+            <summary>
+            </summary>
+            <param name="BridgeType"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

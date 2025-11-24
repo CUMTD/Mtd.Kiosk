@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<ItemGroup>
+		<Folder Include="lib\" />
+		<Reference Include="SeaMAX Dot Net">
+			<HintPath>lib\SeaMAX Dot Net.dll</HintPath>
+		</Reference>
+		<Content Include="lib\SeaMAX Dot Net.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="lib\SeaMAX Dot Net.XML">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="SeaMAX.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="ftd2xx.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Mtd.Kiosk.Annunciator.Core\Mtd.Kiosk.Annunciator.Core.csproj" />
+	</ItemGroup>
+
+</Project>

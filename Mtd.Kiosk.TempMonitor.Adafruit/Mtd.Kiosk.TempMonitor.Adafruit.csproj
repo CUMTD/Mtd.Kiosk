@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<ItemGroup>
+		<PackageReference Include="System.IO.Ports" />
+		<PackageReference Include="System.Management" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Mtd.Kiosk.TempMonitor.Core\Mtd.Kiosk.TempMonitor.Core.csproj" />
+	</ItemGroup>
+
+</Project>

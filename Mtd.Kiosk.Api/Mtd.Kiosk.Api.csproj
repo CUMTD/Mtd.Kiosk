@@ -1,0 +1,75 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<UserSecretsId>4e2755bd-194b-4426-ae51-e68fa4322222</UserSecretsId>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CoordinateSharp" />
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational">
+			<TreatAsUsed>true</TreatAsUsed>
+		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+		<PackageReference Include="Microsoft.Extensions.Http.Resilience" />
+		<PackageReference Include="Mtd.Kiosk.IpDisplaysApi" />
+		<PackageReference Include="Mtd.Stopwatch.Core" />
+		<PackageReference Include="Mtd.Stopwatch.Infrastructure.EFCore" />
+		<PackageReference Include="Seq.Extensions.Logging">
+			<TreatAsUsed>true</TreatAsUsed>
+		</PackageReference>
+		<PackageReference Include="Serilog" />
+		<PackageReference Include="Serilog.AspNetCore" />
+		<PackageReference Include="Serilog.Enrichers.Context">
+			<TreatAsUsed>true</TreatAsUsed>
+		</PackageReference>
+		<PackageReference Include="Serilog.Enrichers.Environment">
+			<TreatAsUsed>true</TreatAsUsed>
+		</PackageReference>
+		<PackageReference Include="Serilog.Enrichers.Process">
+			<TreatAsUsed>true</TreatAsUsed>
+		</PackageReference>
+		<PackageReference Include="Serilog.Enrichers.Thread">
+			<TreatAsUsed>true</TreatAsUsed>
+		</PackageReference>
+		<PackageReference Include="Serilog.Sinks.Console">
+			<TreatAsUsed>true</TreatAsUsed>
+		</PackageReference>
+		<PackageReference Include="Serilog.Sinks.EventLog">
+			<TreatAsUsed>true</TreatAsUsed>
+		</PackageReference>
+		<PackageReference Include="Serilog.Sinks.File">
+			<TreatAsUsed>true</TreatAsUsed>
+		</PackageReference>
+		<PackageReference Include="Serilog.Sinks.PeriodicBatching">
+			<TreatAsUsed>true</TreatAsUsed>
+		</PackageReference>
+		<PackageReference Include="Serilog.Sinks.Seq">
+			<TreatAsUsed>true</TreatAsUsed>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Mtd.Kiosk.Core\Mtd.Kiosk.Core.csproj" />
+		<ProjectReference Include="..\Mtd.Kiosk.Infrastructure.EfCore\Mtd.Kiosk.Infrastructure.EfCore.csproj" />
+		<ProjectReference Include="..\Mtd.Kiosk.RealTime\Mtd.Kiosk.RealTime.csproj" />
+	</ItemGroup>
+
+	<!-- Run npm install/ci before build -->
+	<Target Name="NpmInstall" BeforeTargets="Build">
+		<Message Importance="high" Text="Running npm ci in wwwroot/swagger..." />
+		<Exec WorkingDirectory="wwwroot/swagger" Command="npm ci" />
+	</Target>
+
+	<!-- Copy swagger-ui-dist assets -->
+	<Target Name="CopySwaggerUIAssets" AfterTargets="Build">
+		<ItemGroup>
+			<SwaggerFiles Include="wwwroot/swagger/node_modules/swagger-ui-dist/**" />
+		</ItemGroup>
+		<Copy SourceFiles="@(SwaggerFiles)" DestinationFolder="wwwroot/swagger/lib/%(RecursiveDir)" SkipUnchangedFiles="true" />
+	</Target>
+
+</Project>
