@@ -4,7 +4,7 @@
 
 .DESCRIPTION
     1. Stops and removes any existing "MTD Temperature Monitor" service.
-    2. Downloads & extracts the latest service-vX.X.X.zip from GitHub.
+    2. Downloads & extracts the latest mtd-kiosk-tempmonitor-service-vX.X.X.zip from GitHub.
     3. Copies `publish_output` to C:\Services\TemperatureMonitor-vX.X.X.
     4. Registers the new service (StartupType = Manual).
     5. Applies Ninja environment variables (KioskId, VertivIp, AdafruitEnabled).
@@ -76,16 +76,16 @@ catch {
     Throw-Terminate "Failed to query GitHub API: $_"
 }
 
-$asset = $releaseInfo.assets | Where-Object { $_.name -match '^service-v[\d\.]+\.zip$' }
+$asset = $releaseInfo.assets | Where-Object { $_.name -match '^mtd-kiosk-tempmonitor-service-v[\d\.]+\.zip$' }
 if (-not $asset) {
-    Throw-Terminate "No asset named 'service-vX.X.X.zip' found in the latest release."
+    Throw-Terminate "No asset named 'mtd-kiosk-tempmonitor-service-vX.X.X.zip' found in the latest release."
 }
 
 $assetName = $asset.name
 $downloadUrl = $asset.browser_download_url
 Write-Host "Found asset: $assetName"
 
-if ($assetName -match '^service-v([\d\.]+)\.zip$') {
+if ($assetName -match '^mtd-kiosk-tempmonitor-service-v([\d\.]+)\.zip$') {
     $version = $Matches[1]
 }
 else {
@@ -95,7 +95,7 @@ else {
 # ─────── [ 3. DOWNLOAD & EXTRACT ] ───────
 
 $tempDir = Join-Path $env:TEMP "TempMonitorDeploy"
-$tempZip = Join-Path $tempDir "service-v$version.zip"
+$tempZip = Join-Path $tempDir "mtd-kiosk-tempmonitor-service-v$version.zip"
 $extractDir = Join-Path $tempDir "extracted"
 $installDir = Join-Path $installRoot "TemperatureMonitor-v$version"
 
