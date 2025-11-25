@@ -59,7 +59,7 @@ public class KioskController : ControllerBase
 	[ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
 	[ProducesResponseType(StatusCodes.Status404NotFound)]
 	[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-	public async Task<ActionResult<Core.Entities.Kiosk>> GetKiosk([GuidId(true)] string kioskId, CancellationToken cancellationToken)
+	public async Task<ActionResult<Core.Entities.Kiosk>> GetKioskAsync([GuidId(true)] string kioskId, CancellationToken cancellationToken)
 	{
 		_logger.LogInformation("Getting kiosk: {kioskId}", kioskId);
 		Core.Entities.Kiosk kiosk;
@@ -89,7 +89,7 @@ public class KioskController : ControllerBase
 	[HttpGet]
 	[ProducesResponseType<IEnumerable<Core.Entities.Kiosk>>(StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-	public async Task<ActionResult<IEnumerable<Core.Entities.Kiosk>>> GetAllKiosks(CancellationToken cancellationToken)
+	public async Task<ActionResult<IEnumerable<Core.Entities.Kiosk>>> GetAllKiosksAsync(CancellationToken cancellationToken)
 	{
 		IReadOnlyCollection<Core.Entities.Kiosk> kiosks;
 		try
@@ -116,7 +116,7 @@ public class KioskController : ControllerBase
 	[ProducesResponseType<Core.Entities.Kiosk>(StatusCodes.Status201Created)]
 	[ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
 	[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-	public async Task<ActionResult<Core.Entities.Kiosk>> CreateKiosk([FromBody, Required] CreateKioskModel createKiosk, CancellationToken cancellationToken)
+	public async Task<ActionResult<Core.Entities.Kiosk>> CreateKioskAsync([FromBody, Required] CreateKioskModel createKiosk, CancellationToken cancellationToken)
 	{
 		var kiosk = new Core.Entities.Kiosk(createKiosk.KioskId);
 		try
@@ -130,7 +130,7 @@ public class KioskController : ControllerBase
 			return StatusCode(500);
 		}
 
-		return CreatedAtAction(nameof(GetKiosk), new { KioskId = kiosk.Id }, kiosk);
+		return CreatedAtAction(nameof(GetKioskAsync), new { KioskId = kiosk.Id }, kiosk);
 	}
 
 	// TODO: make an object for this
@@ -143,7 +143,7 @@ public class KioskController : ControllerBase
 	[HttpGet("health")]
 	[ProducesResponseType<IEnumerable<KioskHealthResponseModel>>(StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-	public async Task<ActionResult<IEnumerable<KioskHealthResponseModel>>> GetAllKioskHealth(CancellationToken cancellationToken)
+	public async Task<ActionResult<IEnumerable<KioskHealthResponseModel>>> GetAllKioskHealthAsync(CancellationToken cancellationToken)
 	{
 		_logger.LogDebug("Getting all kiosk health");
 
@@ -160,7 +160,7 @@ public class KioskController : ControllerBase
 		}
 
 		// for each kiosk, get health status with KioskHealth (avoid DbContext threading issues)
-		var kioskHealthTasks = kiosks.Select(k => KioskHealth(k.Id, cancellationToken).Result);
+		var kioskHealthTasks = kiosks.Select(k => KioskHealthAsync(k.Id, cancellationToken).Result);
 		return Ok(kioskHealthTasks);
 
 	}
@@ -175,11 +175,11 @@ public class KioskController : ControllerBase
 	[ProducesResponseType<KioskHealthResponseModel>(StatusCodes.Status200OK)]
 	[ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
 	[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-	public async Task<ActionResult<KioskHealthResponseModel>> GetKioskHealth([GuidId(true)] string kioskId, CancellationToken cancellationToken)
+	public async Task<ActionResult<KioskHealthResponseModel>> GetKioskHealthAsync([GuidId(true)] string kioskId, CancellationToken cancellationToken)
 	{
 		try
 		{
-			var kioskHealth = await KioskHealth(kioskId, cancellationToken);
+			var kioskHealth = await KioskHealthAsync(kioskId, cancellationToken);
 			return Ok(kioskHealth);
 		}
 		catch (Exception ex)
@@ -199,7 +199,7 @@ public class KioskController : ControllerBase
 	[ProducesResponseType<IEnumerable<Ticket>>(StatusCodes.Status200OK)]
 	[ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
 	[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-	public async Task<ActionResult<IEnumerable<Ticket>>> GetTicketsByKiosk([GuidId(true)] string kioskId, CancellationToken cancellationToken)
+	public async Task<ActionResult<IEnumerable<Ticket>>> GetTicketsByKioskAsync([GuidId(true)] string kioskId, CancellationToken cancellationToken)
 	{
 		IEnumerable<Ticket> tickets;
 		try
@@ -221,7 +221,7 @@ public class KioskController : ControllerBase
 	#region Helpers
 
 	// calculate health for each possible HeartbeatType
-	private async Task<HealthStatus> CalculateHealth(string kioskId, HeartbeatType heartbeatType, CancellationToken cancellationToken)
+	private async Task<HealthStatus> CalculateHealthAsync(string kioskId, HeartbeatType heartbeatType, CancellationToken cancellationToken)
 	{
 		Health? lastHeartbeat;
 		try
@@ -250,15 +250,15 @@ public class KioskController : ControllerBase
 	/// <param name="kioskId">The kiosk id to fetch the health for.</param>
 	/// <param name="cancellationToken"></param>
 	/// <returns>A KioskHealthResponseModel object.</returns>
-	private async Task<KioskHealthResponseModel> KioskHealth(string kioskId, CancellationToken cancellationToken)
+	private async Task<KioskHealthResponseModel> KioskHealthAsync(string kioskId, CancellationToken cancellationToken)
 	{
 		_logger.LogTrace("Getting health for kiosk: {kioskId}", kioskId);
 
 		// TODO: implement this once buttons are sending heartbeats
 		//var buttonHealth = HealthStatus.Unknown;
-		var buttonHealth = await CalculateHealth(kioskId, HeartbeatType.Button, cancellationToken);
-		var ledHealth = await CalculateHealth(kioskId, HeartbeatType.LED, cancellationToken);
-		var lcdHealth = await CalculateHealth(kioskId, HeartbeatType.LCD, cancellationToken);
+		var buttonHealth = await CalculateHealthAsync(kioskId, HeartbeatType.Button, cancellationToken);
+		var ledHealth = await CalculateHealthAsync(kioskId, HeartbeatType.LED, cancellationToken);
+		var lcdHealth = await CalculateHealthAsync(kioskId, HeartbeatType.LCD, cancellationToken);
 
 		var openTicketCount = 0;
 		try

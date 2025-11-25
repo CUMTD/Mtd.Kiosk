@@ -71,7 +71,7 @@ public class DeparturesController : ControllerBase
 	[ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
 	[ProducesResponseType(StatusCodes.Status404NotFound)]
 	[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-	public async Task<ActionResult<IEnumerable<LedDeparture>>> GetLedDepartures([StopId(true)] string stopId, [FromQuery, GuidId(false)] string? kioskId, CancellationToken cancellationToken)
+	public async Task<ActionResult<IEnumerable<LedDeparture>>> GetLedDeparturesAsync([StopId(true)] string stopId, [FromQuery, GuidId(false)] string? kioskId, CancellationToken cancellationToken)
 	{
 
 		Departure[]? realTimeClientDepartures;
@@ -120,7 +120,7 @@ public class DeparturesController : ControllerBase
 	[ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
 	[ProducesResponseType(StatusCodes.Status404NotFound)]
 	[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-	public async Task<ActionResult<LcdDepartureResponseModel>> GetLcdDepartures(
+	public async Task<ActionResult<LcdDepartureResponseModel>> GetLcdDeparturesAsync(
 		[StopId(true)]
 		string primaryStopId,
 		[StopIdArray(true)]
@@ -133,7 +133,7 @@ public class DeparturesController : ControllerBase
 		int max = int.MaxValue
 	)
 	{
-		await LogHeartbeat(HeartbeatType.LCD, kioskId);
+		await LogHeartbeatAsync(HeartbeatType.LCD, kioskId);
 
 		// combine the primary stop ID with the additional stop IDs into string[]
 		var stopIds = new List<string> { primaryStopId };
@@ -160,7 +160,7 @@ public class DeparturesController : ControllerBase
 
 		// get all routes from the database
 		// these will be used to enhance the response with route names and colors.
-		var routes = await GetCacheAllRoutes(cancellationToken);
+		var routes = await GetCacheAllRoutesAsync(cancellationToken);
 		if (routes == null)
 		{
 			_logger.LogError("Could not load GTFS routes from DB so cannot show departures.");
@@ -224,9 +224,9 @@ public class DeparturesController : ControllerBase
 	[ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
 	[ProducesResponseType(StatusCodes.Status404NotFound)]
 	[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-	public async Task<ActionResult<AnnunciatorResponseModel>> GetAnnunciatorDepartures([StopId(true)] string stopId, [GuidId(false)] string kioskId, CancellationToken cancellationToken)
+	public async Task<ActionResult<AnnunciatorResponseModel>> GetAnnunciatorDeparturesAsync([StopId(true)] string stopId, [GuidId(false)] string kioskId, CancellationToken cancellationToken)
 	{
-		await LogHeartbeat(HeartbeatType.Button, kioskId);
+		await LogHeartbeatAsync(HeartbeatType.Button, kioskId);
 
 		Departure[]? realTimeClientDepartures;
 		try
@@ -258,7 +258,7 @@ public class DeparturesController : ControllerBase
 
 	#region Helpers
 
-	private async Task<IReadOnlyCollection<Stopwatch.Core.Entities.Transit.Route>?> GetCacheAllRoutes(CancellationToken cancellationToken)
+	private async Task<IReadOnlyCollection<Stopwatch.Core.Entities.Transit.Route>?> GetCacheAllRoutesAsync(CancellationToken cancellationToken)
 	{
 		const string CACHE_KEY = "GtfsRoutes";
 
@@ -285,7 +285,7 @@ public class DeparturesController : ControllerBase
 	/// </summary>
 	/// <param name="type">The type of component to log a heartbeat for.</param>
 	/// <param name="kioskId">The ID of the kiosk to log. If this is null, this method will not do anything.</param>
-	private async Task LogHeartbeat(HeartbeatType type, string? kioskId)
+	private async Task LogHeartbeatAsync(HeartbeatType type, string? kioskId)
 	{
 		if (string.IsNullOrWhiteSpace(kioskId))
 		{

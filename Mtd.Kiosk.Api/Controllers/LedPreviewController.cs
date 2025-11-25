@@ -53,7 +53,7 @@ public class LedPreviewController : ControllerBase
 	[ProducesResponseType(StatusCodes.Status404NotFound)]
 	[ProducesResponseType(StatusCodes.Status500InternalServerError)]
 	[Produces("image/png")]
-	public async Task<ActionResult> GetLedPreviewImage([FromQuery, IpAddress(true)] string ledIp, CancellationToken cancellationToken)
+	public async Task<ActionResult> GetLedPreviewImageAsync([FromQuery, IpAddress(true)] string ledIp, CancellationToken cancellationToken)
 	{
 		Uri? previewImageUri;
 		try

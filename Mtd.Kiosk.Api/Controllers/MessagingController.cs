@@ -38,7 +38,7 @@ public class MessagingController : ControllerBase
 	[HttpGet]
 	[ProducesResponseType<IEnumerable<SimpleGeneralMessage>>(StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-	public async Task<ActionResult<IEnumerable<SimpleGeneralMessage>>> GetGeneralMessages(CancellationToken cancellationToken)
+	public async Task<ActionResult<IEnumerable<SimpleGeneralMessage>>> GetGeneralMessagesAsync(CancellationToken cancellationToken)
 	{
 		GeneralMessage[]? result;
 		try

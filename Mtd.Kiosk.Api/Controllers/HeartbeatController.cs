@@ -46,42 +46,94 @@ public class HeartbeatController : ControllerBase
 	[ProducesResponseType(StatusCodes.Status201Created)]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
 	[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-	public async Task<ActionResult> IngestLEDHeartbeat([FromQuery] string? kioskId, CancellationToken cancellationToken)
+	public async Task<ActionResult> IngestLEDHeartbeatAsync([FromQuery] string? kioskId, CancellationToken cancellationToken)
 	{
 		if (string.IsNullOrEmpty(kioskId) || !Guid.TryParse(kioskId, out _))
 		{
-			return BadRequest("Not a valid GUID.");
+			return BadRequest("Invalid kiosk ID.");
 		}
 
-		// get heartbeat entry for LED
-
-		var existingHeartbeat = await _heartbeatRepository.GetHeartbeatByIdentityAndTypeAsync(kioskId, HeartbeatType.LED, cancellationToken);
+		var kiosk = await _kioskRepository.GetByIdentityAsync(kioskId, cancellationToken);
+		if (kiosk == null)
+		{
+			return NotFound("Kiosk not found.");
+		}
 
 		try
 		{
-			// update the heartbeat's LastUpdated time
+			await LogHeartbeatAsync(kioskId, HeartbeatType.LED, cancellationToken);
+			return CreatedAtAction(nameof(IngestLEDHeartbeatAsync), new { kioskId });
+		}
+		catch (Exception ex)
+		{
+			_logger.LogError(ex, "Failed to log LED heartbeat for kiosk {KioskId}", kioskId);
+			return StatusCode(StatusCodes.Status500InternalServerError, "Failed to log heartbeat.");
+		}
+	}
 
+	/// <summary>
+	/// Ingest a heartbeat for an annunciator.
+	/// </summary>
+	/// <param name="kioskId">The kiosk Id, for logging a heartbeat</param>
+	/// <param name="cancellationToken"></param>
+	/// <returns></returns>
+	[HttpPost("annunciator")]
+	[ProducesResponseType(StatusCodes.Status201Created)]
+	[ProducesResponseType(StatusCodes.Status400BadRequest)]
+	[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+	public async Task<ActionResult> IngestAnnunciatorHeartbeatAsync([FromQuery] string? kioskId, CancellationToken cancellationToken)
+	{
+		if (string.IsNullOrEmpty(kioskId) || !Guid.TryParse(kioskId, out _))
+		{
+			return BadRequest("Invalid kiosk ID.");
+		}
+
+		var kiosk = await _kioskRepository.GetByIdentityAsync(kioskId, cancellationToken);
+		if (kiosk == null)
+		{
+			return NotFound("Kiosk not found.");
+		}
+
+		try
+		{
+			await LogHeartbeatAsync(kioskId, HeartbeatType.Button, cancellationToken);
+			return CreatedAtAction(nameof(IngestLEDHeartbeatAsync), new { kioskId });
+		}
+		catch (Exception ex)
+		{
+			_logger.LogError(ex, "Failed to log annunciator heartbeat for kiosk {KioskId}", kioskId);
+			return StatusCode(StatusCodes.Status500InternalServerError, "Failed to log heartbeat.");
+		}
+	}
+
+	private async Task LogHeartbeatAsync(string? kioskId, HeartbeatType type, CancellationToken cancellationToken)
+	{
+		if (string.IsNullOrEmpty(kioskId) || !Guid.TryParse(kioskId, out _))
+		{
+			return;
+		}
+
+		var existingHeartbeat = await _heartbeatRepository.GetHeartbeatByIdentityAndTypeAsync(kioskId, type, cancellationToken);
+		try
+		{
 			if (existingHeartbeat != null)
 			{
 				existingHeartbeat.LastHeartbeat = DateTime.UtcNow;
 			}
 			else
 			{
-				// create a new heartbeat entry
-				var heartbeat = new Health(kioskId, HeartbeatType.LED);
+				var heartbeat = new Health(kioskId, type);
 				await _heartbeatRepository.AddAsync(heartbeat, cancellationToken);
 			}
 
 			await _heartbeatRepository.CommitChangesAsync(cancellationToken);
-			_logger.LogInformation("Logged LED heartbeat for kiosk {KioskId}", kioskId);
+			_logger.LogInformation("Logged heartbeat for kiosk {KioskId}", kioskId);
 		}
 		catch
 		{
-			_logger.LogError("Failed to log LED heartbeat for kiosk {KioskId}", kioskId);
-			return StatusCode(StatusCodes.Status500InternalServerError);
+			_logger.LogError("Failed to log heartbeat for kiosk {KioskId}", kioskId);
+			throw;
 		}
-
-		return Created();
 	}
 }
 
