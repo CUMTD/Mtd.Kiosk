@@ -192,15 +192,25 @@ public class DeparturesController : ControllerBase
 				.Take(3)
 				.Select(d => new LcdDepartureTime(d));
 
+			try
+			{
+
 			// match the public route for this group.
 			var publicRoute = routes
 				.First(route => route.PublicRouteId != null && route.PublicRouteId == group.Key.publicRouteId)
 				.PublicRoute;
+		
 
 			// public route should never be null here since we check for it in our first statement above
 			var lcdDeparture = new LcdDepartureGroup(publicRoute!, lcdDepartureTimes, group.First().Direction, isAcrossStreet);
 
 			lcdDepartures.Add(lcdDeparture);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogWarning("Route ID from SIRI feed not found in Stopwatch DB {ex}", ex);
+				continue;
+			}
 		}
 
 		// sort so that non isAcrossStreet routes will come immediately before isAcrossStreet routes
