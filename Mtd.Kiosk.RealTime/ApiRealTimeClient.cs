@@ -31,6 +31,11 @@ public class ApiRealTimeClient
 		{
 			// TODO DEV
 			httpResponseMessage = await _client.GetAsync(_config.GmUri, cancellationToken);
+			if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.NoContent)
+			{
+				_logger.LogTrace("No General Messages.");
+				return Array.Empty<GeneralMessage>();
+			}
 			httpResponseMessage.EnsureSuccessStatusCode();
 
 		}
