@@ -223,6 +223,83 @@ public class DeparturesController : ControllerBase
 	}
 
 	/// <summary>
+	/// Get the next departures for an e-paper screen.
+	/// </summary>
+	/// <param name="stopId">The stop Id to fetch departures for</param>
+	/// <param name="cancellationToken"></param>
+	/// <returns>An array of EPaperDepartureGroup objects</returns>
+	[HttpGet("{stopId}/paper")]
+	[ProducesResponseType<EPaperDepartureResponseModel>(StatusCodes.Status200OK)]
+	[ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
+	[ProducesResponseType(StatusCodes.Status404NotFound)]
+	[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+	public async Task<ActionResult<EPaperDepartureResponseModel>> GetPaperDeparturesAsync([StopId(true)] string stopId, CancellationToken cancellationToken)
+	{
+		Departure[]? departures = null;
+		try
+		{
+			departures = await _realTimeClient.GetRealTimeForStopsAsync([stopId], cancellationToken);
+		}
+		catch (Exception ex)
+		{
+			_logger.LogError(ex, "Failed to get deparutres from real-time client for {stopId}.", stopId);
+			return StatusCode(StatusCodes.Status500InternalServerError);
+		}
+
+		if (departures == null)
+		{
+			_logger.LogWarning("Real-time client returned null for {stopId}.", stopId);
+			return StatusCode(StatusCodes.Status500InternalServerError);
+		}
+
+		var routes = await GetCacheAllRoutesAsync(cancellationToken);
+		if (routes == null)
+		{
+			_logger.LogError("Could not load GTFS routes from DB so cannot show departures.");
+			return StatusCode(StatusCodes.Status500InternalServerError);
+		}
+
+		var groupedDepartures = departures
+			.GroupBy(departure => new
+			{
+				publicRouteId = routes.FirstOrDefault(route => route.Id == departure.RouteId)?.PublicRouteId ?? "UNKNOWN_PUBLIC_ROUTE_ID",
+				direction = departure.Direction
+			});
+
+		var paperDepartures = new List<EPaperDepartureGroup>();
+		foreach (var group in groupedDepartures)
+		{
+           var paperDepartureTimes = group
+				.OrderBy(departure => departure.MinutesTillDeparture)
+				.ThenBy(departure => departure.RouteSortNumber)
+				.ThenBy(departure => departure.RouteNumber)
+				.Take(3)
+              .Select(d => new EPaperDepartureTime(d));
+
+			try
+			{
+				var publicRoute = routes
+					.First(route => route.PublicRouteId != null && route.PublicRouteId == group.Key.publicRouteId)
+					.PublicRoute;
+
+                var paperDeparture = new EPaperDepartureGroup(publicRoute!, paperDepartureTimes, group.First().Direction);
+
+				paperDepartures.Add(paperDeparture);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogWarning("Route ID from SIRI feed not found in Stopwatch DB {ex}", ex);
+				continue;
+			}
+		}
+
+		paperDepartures = [.. paperDepartures
+			.OrderBy(paperDeparture => paperDeparture.SortOrder)];
+
+		return Ok(new EPaperDepartureResponseModel(paperDepartures));
+	}
+
+	/// <summary>
 	/// Get the next departures, formatted for an annunciator.
 	/// </summary>
 	/// <param name="stopId"></param>
