@@ -62,7 +62,7 @@ public class HeartbeatController : ControllerBase
 		try
 		{
 			await LogHeartbeatAsync(kioskId, HeartbeatType.LED, cancellationToken);
-			return CreatedAtAction(nameof(IngestLEDHeartbeatAsync), new { kioskId });
+           return CreatedAtAction("IngestLEDHeartbeat", new { kioskId }, null);
 		}
 		catch (Exception ex)
 		{
@@ -97,7 +97,7 @@ public class HeartbeatController : ControllerBase
 		try
 		{
 			await LogHeartbeatAsync(kioskId, HeartbeatType.Button, cancellationToken);
-			return CreatedAtAction(nameof(IngestLEDHeartbeatAsync), new { kioskId });
+           return CreatedAtAction("IngestAnnunciatorHeartbeat", new { kioskId }, null);
 		}
 		catch (Exception ex)
 		{
