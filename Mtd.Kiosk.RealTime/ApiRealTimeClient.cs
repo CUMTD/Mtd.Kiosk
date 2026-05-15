@@ -76,7 +76,7 @@ public class ApiRealTimeClient
 				queryString.Add("stopIds", stopIds[i]);
 			}
 
-			queryString.Add("previewTime", "60");
+			queryString.Add("previewMinutes", "60");
 
 			var url = $"{_config.SmUri?.ToString()}?{queryString}";
 
