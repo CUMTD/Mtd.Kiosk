@@ -105,7 +105,7 @@ internal class LedDepartureUpdaterService : BackgroundService, IHostedService, I
 			{
 				if (_departuresStack.Count == 0)
 				{
-					successfullyUpdated = await sign.UpdateSign("No departures for at this time.", string.Empty);
+					successfullyUpdated = await sign.UpdateSign("No departures scheduled for the next hour.", string.Empty);
 				}
 				else if (_departuresStack.Count == 1) // only one departure left
 				{
