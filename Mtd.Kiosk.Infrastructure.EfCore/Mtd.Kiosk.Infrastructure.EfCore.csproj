@@ -1,5 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
 		<PackageReference Include="Mtd.Infrastructure.EFCore" />
 	</ItemGroup>
